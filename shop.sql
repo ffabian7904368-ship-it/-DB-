@@ -1,9 +1,4 @@
-DROP TABLE IF EXISTS Order_Items;
-DROP TABLE IF EXISTS Orders;
-DROP TABLE IF EXISTS Products;
-DROP TABLE IF EXISTS Customers;
-
-
+-- Создание таблицы Покупателей
 CREATE TABLE Customers (
     customer_id SERIAL PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
@@ -13,7 +8,7 @@ CREATE TABLE Customers (
     FOREIGN KEY (recommended_by) REFERENCES Customers(customer_id)
 );
 
-
+-- Создание таблицы Товаров
 CREATE TABLE Products (
     product_id SERIAL PRIMARY KEY,
     product_name VARCHAR(100) NOT NULL,
@@ -21,7 +16,7 @@ CREATE TABLE Products (
     price DECIMAL(10, 2) NOT NULL
 );
 
-
+-- Создание таблицы Заказов
 CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
     customer_id INT,
@@ -30,7 +25,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
-
+-- Создание таблицы Состава Заказа
 CREATE TABLE Order_Items (
     order_item_id SERIAL PRIMARY KEY,
     order_id INT,
@@ -41,7 +36,7 @@ CREATE TABLE Order_Items (
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 
-
+-- Наполнение таблиц данными
 INSERT INTO Customers (customer_id, full_name, email, registration_date, recommended_by) VALUES
 (1, 'Иван Иванов', 'ivan.ivanov@example.com', '2023-01-15', NULL),
 (2, 'Мария Петрова', 'maria.petrova@example.com', '2023-02-20', 1),
@@ -64,10 +59,9 @@ INSERT INTO Orders (customer_id, order_date, status) VALUES
 (3, '2024-05-16', 'Доставлен');
 
 INSERT INTO Order_Items (order_id, product_id, quantity, price_per_unit) VALUES
-(1, 1, 1, 70000.00),  
-(1, 4, 2, 1400.00),   
-(2, 2, 1, 120000.00), 
-(3, 3, 1, 25000.00),  
-(4, 1, 1, 70000.00),  
-(4, 5, 1, 4500.88);   
-
+(1, 1, 1, 70000.00),  -- Иван купил Смартфон
+(1, 4, 2, 1400.00),   -- и 2 книги
+(2, 2, 1, 120000.00), -- Мария купила Ноутбук
+(3, 3, 1, 25000.00),  -- Иван купил Кофемашину
+(4, 1, 1, 70000.00),  -- Алексей купил Смартфон
+(4, 5, 1, 4500.00);   -- и Фен
